@@ -4,7 +4,7 @@
 
 
 //*IMPORTS*
-
+import {hexToFillStyle} from './controllers/ColorController.js'
 
 
 //*CONSTANTS*
@@ -22,7 +22,6 @@ const FPS = 30;
 const BG_COLOR = 0xff0000;
 
 var canvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas>");
-var xPos=5;
 export var canvas = canvasElement.get(0);
 
 export var ctx = canvas.getContext("2d");
@@ -45,7 +44,7 @@ var gameContainer = [];
 
 //*IN GAME GLOBAL FUNCTIONS*
 function clearCanvas(){
-  //ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   //clear everything from canvas
 
   ctx.fillStyle = hexToFillStyle(BG_COLOR);
@@ -164,8 +163,6 @@ function drawFrame(container){
   RETURN VALUE:
   undefined
   */
-  rect(xPos, 100, 100, 100);
-  xPos++;
   container.forEach(function(symbol){
 
     if(symbol instanceof Array){
