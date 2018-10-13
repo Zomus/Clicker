@@ -22,7 +22,7 @@ const FPS = 30;
 const BG_COLOR = 0xff0000;
 
 var canvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas>");
-
+var xPos=5;
 export var canvas = canvasElement.get(0);
 
 export var ctx = canvas.getContext("2d");
@@ -164,7 +164,8 @@ function drawFrame(container){
   RETURN VALUE:
   undefined
   */
-
+  rect(xPos, 100, 100, 100);
+  xPos++;
   container.forEach(function(symbol){
 
     if(symbol instanceof Array){
