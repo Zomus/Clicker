@@ -19,6 +19,8 @@ serv.listen(PORT, function(){
 //server.io
 var io = require('socket.io')(serv, {});
 
+
+//handles connection
 io.sockets.on('connection', function(socket){
   console.log("user connected")
 
@@ -28,3 +30,12 @@ io.sockets.on('connection', function(socket){
 
   //socket.on('')
 })
+
+io.on('connection', function(socket)
+{
+  socket.on('drawNewTerritory', function(x, y, player)
+  {
+    
+  });
+}
+);
