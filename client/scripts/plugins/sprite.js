@@ -57,7 +57,6 @@
     var proxy = LoaderProxy();
 
     img.onload = function() {
-      console.log("loaded");
       var tile = Sprite(this);
 
       $.extend(proxy, tile);
@@ -73,7 +72,7 @@
     return proxy;
   };
 
-  var spriteImagePath = "/client/resources/";
+  var spriteImagePath = "resources/";
 
   //GLOBAL FUNCTIONS - The following functions can be called from anywhere, as they are assigned as a function of "window"
   window.Sprite = function(name, callback) {

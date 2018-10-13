@@ -70,7 +70,6 @@ export function setFillStyle(ctx, color = 0){
  * canvas.fill();
  *
  * @param {Canvas} ctx HTML5 canvas where all items are drawn
- * @param {Number} thickness Thickness of cursor line
  * @param {Number} color Function to draw the object without
  * @param {Array} dashProp Dashed line properties
  * @param {String} lineCap End cap style for line

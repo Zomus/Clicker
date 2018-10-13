@@ -78,21 +78,7 @@ const OFFSET_Y = 82;
         return true;
       },
       fire: function(){
-        //Pre-computing ratios so they do not have to computed multiple times
-        var cosRatio = Math.cos(rotation);
-        var sinRatio = Math.sin(rotation);
-
-        var bulletSpeed = 2;
-
-        var tempBullet = Bullet(
-          x + TURRET_LENGTH * cosRatio,   //x
-          y + TURRET_LENGTH * sinRatio,   //y
-          bulletSpeed * cosRatio,         //xSpeed
-          bulletSpeed * sinRatio,         //ySpeed
-          1,                              //reflections
-          bulletContainer                 //parent
-        );
-
+        var tempBullet = Bullet(x + TURRET_LENGTH * Math.cos(rotation), y + TURRET_LENGTH * Math.sin(rotation), rotation, 2, bulletContainer);
         bulletContainer.push(tempBullet);
       },
       draw: function(){

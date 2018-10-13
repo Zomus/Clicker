@@ -3,7 +3,6 @@
 //*IMPORTS*
 
 import './Tank.js';
-import {setMap} from './maps/Maps.js';
 import {hexToFillStyle} from './plugins/ColorController.js';
 
 
@@ -12,8 +11,6 @@ import {hexToFillStyle} from './plugins/ColorController.js';
 
 
 //*CONSTANTS*
-
-var socket = io();
 
 //Define dimensions of canvas
 export const CANVAS_WIDTH = 1250;
@@ -44,9 +41,6 @@ export var mouseY = -1;
 
 export var gameContainer = [];
 export var bulletContainer = [];
-export var mapContainer = [];
-
-export var currentMap;
 
 //*IN GAME GLOBAL VARIABLES*
 
@@ -89,9 +83,6 @@ window.onload = function() {
 
   gameContainer.push(tank);
   gameContainer.push(bulletContainer);
-
-  currentMap = setMap(0);
-  //set and reload map
 
   canvas.addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(evt);
