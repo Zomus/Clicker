@@ -2,6 +2,10 @@
 
 //*IMPORTS*
 
+import './Tank.js';
+import {setMap} from './maps/Maps.js';
+import {hexToFillStyle} from './plugins/ColorController.js';
+
 
 //*IMPORTS*
 
@@ -38,10 +42,13 @@ export var mouseY = -1;
 
 //*IN GAME GLOBAL VARIABLES*
 
-var gameContainer = [];
+export var gameContainer = [];
+export var bulletContainer = [];
+export var mapContainer = [];
+
+export var currentMap;
 
 //*IN GAME GLOBAL VARIABLES*
-
 
 //*IN GAME GLOBAL FUNCTIONS*
 function clearCanvas(){
@@ -64,13 +71,27 @@ function bindKeys(){
 
 window.onload = function() {
 
-  console.log("Starting Program...");
+  console.log("Loading Tanks Arena...");
 
   $('body').append(canvasElement);
 
   //Setup Project here
   bindKeys();
 
+  var tank = Tank(
+    200,        //x
+    240,        //y
+    50,         //scale
+    0,          //rotation
+    0x00ff00,   //color
+    1           //speed
+  );
+
+  gameContainer.push(tank);
+  gameContainer.push(bulletContainer);
+
+  currentMap = setMap(0);
+  //set and reload map
 
   canvas.addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(evt);
