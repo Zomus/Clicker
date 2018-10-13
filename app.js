@@ -26,5 +26,11 @@ io.sockets.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  //socket.on('')
+  socket.on('print', function(data){
+    console.log('PRINT:' + data.message);
+  });
+
+  socket.on('echo', function(data){
+    socket.emit('echoed', data);
+  })
 })

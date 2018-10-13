@@ -5,11 +5,19 @@
 
 //*IMPORTS*
 
-
+import {hexToFillStyle} from './controllers/ColorController.js';
 
 //*CONSTANTS*
 
+
+//socket.io
 var socket = io();
+
+socket.on('echoed', function(data){
+  console.log("ECHOED:");
+  console.log(data);
+});
+
 
 //Define dimensions of canvas
 export const CANVAS_WIDTH = 1250;
@@ -66,6 +74,10 @@ window.onload = function() {
 
   console.log("Starting Program...");
 
+  socket.emit('print', {
+    message:'Starting Program...'
+  });
+
   $('body').append(canvasElement);
 
   //Setup Project here
@@ -86,7 +98,7 @@ window.onload = function() {
     document.dispatchEvent(enterFrame);
     //dispatch an enterframe function to cause all objects to update by 1 frame
 
-    eFrame(gameContainer)
+    eFrame(gameContainer);
     //(recursively) runs enterframe functions for each symbol
 
     drawFrame(gameContainer);
