@@ -1,11 +1,13 @@
 //Load the game only when window has loaded
 
 //*IMPORTS*
-
+import {hexToFillStyle} from './controllers/ColorController.js';
+import {drawCircle} from './controllers/DrawController.js';
+import './Territory.js';
 
 //*IMPORTS*
 
-import {hexToFillStyle} from './controllers/ColorController.js';
+
 
 //*CONSTANTS*
 
@@ -17,6 +19,11 @@ socket.on('echoed', function(data){
   console.log("ECHOED:");
   console.log(data);
 });
+
+socket.on('receive territory', function(data){
+  var territory = Territory(data.x, data.y, data.radius, data.shrinkRate, data.color);
+  gameContainer.push(territory);
+})
 
 
 //Define dimensions of canvas
@@ -90,15 +97,22 @@ window.onload = function() {
     mouseY = mousePos.y;
   }, false);
 
+  canvas.addEventListener('click', function(evt){
+    socket.emit('create territory', {
+      x: mouseX,
+      y: mouseY,
+      radius: 40,
+      shrinkRate: 1,
+      color: 0x0000ff
+    })
+  });
+
 
   setInterval(function(){
     clearCanvas();
     //clear canvas every frame
 
-    document.dispatchEvent(enterFrame);
-    //dispatch an enterframe function to cause all objects to update by 1 frame
-
-    eFrame(gameContainer);
+    eFrame(gameContainer)
     //(recursively) runs enterframe functions for each symbol
 
     drawFrame(gameContainer);

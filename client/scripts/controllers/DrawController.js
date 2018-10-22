@@ -38,11 +38,12 @@ export function drawRotated(ctx, x, y, rotation, drawFunction, ...drawParams){
  *
  * Example: Set fill style to green and draw a circle
  *
- * setFillStyle(canvas, 0x00ff00);
- * canvas.arc(50, 50, 100, 0, 2*Math.PI);
- * canvas.closePath();
+ * setFillStyle(ctx, 0x00ff00);
+ * ctx.arc(50, 50, 100, 0, 2*Math.PI);
+ * ctx.closePath();
+ * ctx.fill();
  *
- * @param {Canvas} ctx HTML5 canvas where all items are drawn
+ * @param {CanvasContext} ctx HTML5 canvas where all items are drawn
  * @param {Number} color Function to draw the object without
  * @returns undefined
  */
@@ -105,7 +106,7 @@ export function setLineStyle(ctx, thickness = 1, color = 0, dashProp = [], lineC
  * @param {Number} y Vertical position of cursor
  * @param {Number} size Size of cursor
  * @param {Number} thickness Thickness of cursor line
- * @param {Number} color Function to draw the object without
+ * @param {Number} color Color of cursor
  * @param {Number} lineFraction How far the line extends towards the center (from corner)
  * @param {String} lineCap End cap style for line
  * @returns undefined
@@ -128,6 +129,33 @@ export function drawCross(ctx, x, y, size = 25, thickness = 1, color = 0, lineFr
   ctx.moveTo(x + size*0.5, y - size*0.5);
   ctx.lineTo(x - size*0.5, y + size*0.5);
   ctx.stroke();
+
+  ctx.restore();
+  //restore canvas settings
+
+}
+
+
+/**
+ * Draws a cross on the screen using given properties.
+ *
+ * @param {Canvas} ctx HTML5 canvas where all items are drawn
+ * @param {Number} x Horizontal position of circle
+ * @param {Number} y Vertical position of circle
+ * @param {Number} radius Size of cursor
+ * @param {Number} color Color of circle
+ * @returns undefined
+ */
+
+export function drawCircle(ctx, x, y, radius, color = 0){
+  ctx.save();
+  //save canvas settings
+
+  setFillStyle(ctx, color);
+
+  ctx.arc(x, y, radius, 0, 2*Math.PI);
+  ctx.closePath();
+  ctx.fill();
 
   ctx.restore();
   //restore canvas settings
