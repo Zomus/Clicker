@@ -20,10 +20,12 @@ serv.listen(PORT, function(){
 const $ = require('jQuery');
 
 
+//imports - controllers
+var ArrayController = require('./server/controllers/ArrayController');
 
 //imports - custom
 var Territory = require('./server/Territory');
-
+var User = require('./server/User');
 
 //import - canvas
 const { createCanvas, loadImage } = require('canvas');
@@ -37,12 +39,23 @@ const FPS = 30;
 var ctx = canvas.getContext("2d");
 //create a virtual canvas inside the server using canvas import (used to compute territory bonus)
 
+
+//
+var currentGUID = 1;
+//globally unique identifier for users
+
+var allUsers = new Object;
+//All users online, a Dictionary with socket as key and User as values
+
 var territories = [];
 //array that contains territories in drawn in the server
 
 setInterval(function(){
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   //clear canvas every frame
+
+  randomizeScoresEveryFrameForTesting();
+  //DUNK: randomizing scores every frame for testing only!!!
 
   eFrame(territories);
   //(recursively) runs enterframe functions for each symbol
@@ -55,8 +68,30 @@ setInterval(function(){
     bonus:'replace this with a call to a function that returns territory bonuses'
   });
 
+  io.emit('s:update scores', {
+    scores: getScores()
+    //DUNK: Maybe send actual user instead of just the string? Not sure whether it will make it better
+  })
+
 }, 1000/FPS);
 //Update and draw canvas every 1/FPSth of a second
+
+function randomizeScoresEveryFrameForTesting(){
+  for(var key in allUsers){
+    allUsers[key].changeScore(Math.floor(Math.random()*10));
+  }
+}
+
+function getScores(){
+  var tempScores = []
+  console.log(Object.keys(allUsers).length)
+  for(var key in allUsers){
+    tempScoreObject = {user: allUsers[key].name, score: allUsers[key].getScore(), color: allUsers[key].color};
+    tempScores.push(tempScoreObject);
+  }
+  console.log(tempScores);
+  return tempScores
+}
 
 
 function eFrame(container){
@@ -149,8 +184,21 @@ io.sockets.on('connection', function(socket){
   io.emit('BROADCAST: User connected!');
   socket.emit('You have connected!');
 
+  //Upon connection, create new user (will be different as they log on/off later)
+  var tempUser = User.init(currentGUID++, null, socket, 0x00ff00)
+  allUsers[socket] = tempUser;
+
+  socket.emit('s:grant color', {
+    color: tempUser.color
+  });
+
   socket.on('disconnect', function(){
     console.log('user disconnected');
+
+    delete allUsers[socket];
+    //remove user from list
+
+    //ArrayController.removeFromArray(allUsers, socket)
   });
 
   socket.on('c:print', function(data){
@@ -173,11 +221,6 @@ io.sockets.on('connection', function(socket){
       shrinkRate: data.shrinkRate,
       color: data.color
     });
-
-    io.emit('s:update scores', {
-      scores: [{user: "Zom", score: 100}, {user: "Sam", score: 200}]
-      //DUNK: Maybe send actual user instead of just the string? Not sure whether it will make it better
-    })
   });
 
 

@@ -2,6 +2,7 @@
 import {setFillStyle} from './controllers/DrawController.js'
 import {roundRect} from './controllers/DrawController.js'
 import {drawText} from './controllers/TextController.js'
+import {userColor} from './Main.js'
 
 import {CANVAS_HEIGHT} from './Main.js'
 
@@ -29,7 +30,9 @@ const CROWN = Sprite('golden_crown');
       /*x: x,*/
 
       updateScore: function(newScores){
-        newScores = [{user: "Zom", score: 100}, {user: "Sam", score: 200}]
+        //newScores = [{user: "Zom", score: 100, color: 0xff0000}, {user: "Sam", score: 200, color: 0x0000ff}]
+
+        newScores = newScores || []
 
         //sort scores from highest to lowest
         scores = newScores.sort(function(a, b){
@@ -39,7 +42,7 @@ const CROWN = Sprite('golden_crown');
 
       draw: function(ctx){
         drawBoard(ctx, 0xff0000);
-        //draws at its position based on its rotation
+        //draw the score board
       }
 
     }
@@ -65,7 +68,7 @@ const CROWN = Sprite('golden_crown');
     ctx.globalAlpha = 1;
 
     //Text for title
-    drawText(ctx, "Score: 0", 20, 35, 0xffffff, 20, "Calibri");
+    drawText(ctx, "Score: 0", 20, 35, userColor, 20, "Calibri");
 
     drawText(ctx, "Rank", 10, FIRST_ROW - 40, 0xffffff, 20, "Calibri");
     drawText(ctx, "Player", 80, FIRST_ROW - 40, 0xffffff, 20, "Calibri");
@@ -76,15 +79,14 @@ const CROWN = Sprite('golden_crown');
       if(i == 0){
         //first place! Draw golden crown.
 
-        console.log("Crown obtained", CROWN)
         CROWN.setScale(0.8);
         CROWN.draw(ctx, 5, 100);
       }else{
-        drawText(ctx, i + 1, 25, FIRST_ROW + i * SPACING, 0xffffff, 20, "Calibri");
+        drawText(ctx, i + 1, 25, FIRST_ROW + i * SPACING, scores[i].color, 20, "Calibri");
       }
 
-      drawText(ctx, scores[i].user, 80, FIRST_ROW + i * SPACING, 0xffffff, 20, "Calibri");
-      drawText(ctx, scores[i].score, 180, FIRST_ROW + i * SPACING, 0xffffff, 20, "Calibri");
+      drawText(ctx, scores[i].user, 80, FIRST_ROW + i * SPACING, scores[i].color, 20, "Calibri");
+      drawText(ctx, scores[i].score, 180, FIRST_ROW + i * SPACING, scores[i].color, 20, "Calibri");
 
       ctx.fill();
     }

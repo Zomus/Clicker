@@ -1,22 +1,35 @@
 module.exports = {
-  init: function(id, socket){
-    return User(id, socket, color);
+  init: function(guid, name, socket, color){
+    return User(guid, name, socket, color);
   }
 }
 
-function User(id, socket, color){
+function User(guid, name, socket, color, score){
 
   //Assign Default Properties
-  id = id || -1;
+  guid = guid || -1;
+  name = name || "person" + guid
   socket = socket || null;
-  color = color || 0;
+  color = color || null;
+  score = score || 0;
 
-  if(id < 0 || socket == null || color == 0){
-    console.warn("@User: Instantiation error.")
+  if(guid <= 0 || name == null || socket == null || color == null){
+    console.warn("@User: Instantiation error.");
   }
 
   return {
-    id: id,
+    changeScore: function(change){
+      score += change;
+      if(score < 0){
+        score = 0;
+      }
+    },
+    getScore: function(){
+      return score;
+    },
+
+    guid: guid,
+    name: name,
     socket: socket,
     color: color
   }

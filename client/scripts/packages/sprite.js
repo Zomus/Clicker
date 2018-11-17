@@ -27,14 +27,12 @@
       height: height,
 
       setScale: function(scale){
-        console.log("setscale")
         width = image.width * scale;
         height = image.height * scale;
       },
 
       //Class Functions
       draw: function(canvas, x, y) {
-        console.log("hi")
         canvas.drawImage(
           image,
           x,

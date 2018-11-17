@@ -20,14 +20,17 @@ socket.on('s:echoed', function(data){
   console.log(data);
 });
 
+socket.on('s:grant color', function(data){
+  console.log("Received color: " + data.color);
+  userColor = data.color
+})
+
 socket.on('s:receive territory', function(data){
   var territory = Territory(data.x, data.y, data.radius, data.shrinkRate, data.color);
   gameContainer.push(territory);
 })
 
-socket.on('s:update scores', function(data){
-  scoreBoard.up
-})
+
 
 
 //Define dimensions of canvas
@@ -61,6 +64,10 @@ var gameContainer = [];
 
 var score = 0;
 var scoreBoard;
+//scoreboard instance
+
+export var userColor;
+//color of user
 
 //*IN GAME GLOBAL VARIABLES*
 
@@ -99,6 +106,10 @@ window.onload = function() {
 
   scoreBoard = ScoreBoard();
   scoreBoard.updateScore();
+
+  socket.on('s:update scores', function(data){
+    scoreBoard.updateScore(data.scores)
+  })
 
   gameContainer.push(scoreBoard);
 

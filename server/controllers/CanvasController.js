@@ -1,3 +1,7 @@
+module.exports = {
+  checkPixelColor: checkPixelColor
+}
+
 
 function checkPixelColor(x, y) {//gets the RGBA values from a cordinate
   X = x;
