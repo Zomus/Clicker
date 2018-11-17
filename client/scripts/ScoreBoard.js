@@ -12,7 +12,9 @@ import {CANVAS_HEIGHT} from './Main.js'
 const FIRST_ROW = 130;
 const SPACING = 50;
 
-const CROWN = Sprite('golden_crown');
+const GOLDEN_CROWN = Sprite('goldCrown');
+const SILVER_CROWN = Sprite('silverCrown');
+const BRONZE_CROWN = Sprite('bronzeCrown');
 
 //**
 //ENCLOSURE
@@ -77,11 +79,23 @@ const CROWN = Sprite('golden_crown');
 
     for(var i = 0; i < scores.length; i++){
       if(i == 0){
-        //first place! Draw golden crown.
+        //first place!
 
-        CROWN.setScale(0.8);
-        CROWN.draw(ctx, 5, 100);
-      }else{
+        GOLDEN_CROWN.setScale(0.6);
+        GOLDEN_CROWN.draw(ctx, 12, 105);
+      }else if(i == 1){
+        //second place!
+
+        SILVER_CROWN.setScale(0.6);
+        SILVER_CROWN.draw(ctx, 12, 105 + SPACING);
+      }
+      else if (i == 2){
+        //third place!
+
+        BRONZE_CROWN.setScale(0.6);
+        BRONZE_CROWN.draw(ctx, 12, 105 + 2*SPACING);
+      }
+      else{
         drawText(ctx, i + 1, 25, FIRST_ROW + i * SPACING, scores[i].color, 20, "Calibri");
       }
 
