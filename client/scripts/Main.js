@@ -4,7 +4,7 @@
 import {hexToFillStyle} from './controllers/ColorController.js';
 import {drawCircle} from './controllers/DrawController.js';
 import './Territory.js';
-
+import './ScoreBoard.js';
 //*IMPORTS*
 
 
@@ -15,14 +15,18 @@ import './Territory.js';
 //socket.io
 var socket = io();
 
-socket.on('echoed', function(data){
+socket.on('s:echoed', function(data){
   console.log("ECHOED:");
   console.log(data);
 });
 
-socket.on('receive territory', function(data){
+socket.on('s:receive territory', function(data){
   var territory = Territory(data.x, data.y, data.radius, data.shrinkRate, data.color);
   gameContainer.push(territory);
+})
+
+socket.on('s:update scores', function(data){
+  scoreBoard.up
 })
 
 
@@ -54,6 +58,9 @@ export var mouseY = -1;
 //*IN GAME GLOBAL VARIABLES*
 
 var gameContainer = [];
+
+var score = 0;
+var scoreBoard = ScoreBoard();
 
 //*IN GAME GLOBAL VARIABLES*
 
@@ -90,6 +97,9 @@ window.onload = function() {
   //Setup Project here
   bindKeys();
 
+  scoreBoard.updateScore();
+
+  gameContainer.push(scoreBoard);
 
   canvas.addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(evt);
@@ -98,7 +108,7 @@ window.onload = function() {
   }, false);
 
   canvas.addEventListener('click', function(evt){
-    socket.emit('create territory', {
+    socket.emit('c:create territory', {
       x: mouseX,
       y: mouseY,
       radius: 40,

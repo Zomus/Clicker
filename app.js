@@ -153,26 +153,31 @@ io.sockets.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('print', function(data){
+  socket.on('c:print', function(data){
     console.log('PRINT:' + data.message);
   });
 
-  socket.on('echo', function(data){
-    socket.emit('echoed', data);
+  socket.on('c:echo', function(data){
+    socket.emit('s:echoed', data);
   });
 
-  socket.on('create territory', function(data){
+  socket.on('c:create territory', function(data){
     var territory = Territory.init(data.x, data.y, data.radius, data.shrinkRate, data.color);
 
     territories.push(territory);
 
-    io.emit('receive territory', {
+    io.emit('s:receive territory', {
       x: data.x,
       y: data.y,
       radius: data.radius,
       shrinkRate: data.shrinkRate,
       color: data.color
     });
+
+    io.emit('s:update scores', {
+      scores: [{user: "Zom", score: 100}, {user: "Sam", score: 200}]
+      //DUNK: Maybe send actual user instead of just the string? Not sure whether it will make it better
+    })
   });
 
 
