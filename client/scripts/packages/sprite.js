@@ -27,12 +27,14 @@
       height: height,
 
       setScale: function(scale){
+        console.log("setscale")
         width = image.width * scale;
         height = image.height * scale;
       },
 
       //Class Functions
       draw: function(canvas, x, y) {
+        console.log("hi")
         canvas.drawImage(
           image,
           x,
@@ -55,9 +57,7 @@
   Sprite.load = function(url, loadedCallback) {
     var img = new Image();
     var proxy = LoaderProxy();
-
     img.onload = function() {
-      console.log("loaded");
       var tile = Sprite(this);
 
       $.extend(proxy, tile);

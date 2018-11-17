@@ -60,7 +60,7 @@ export var mouseY = -1;
 var gameContainer = [];
 
 var score = 0;
-var scoreBoard = ScoreBoard();
+var scoreBoard;
 
 //*IN GAME GLOBAL VARIABLES*
 
@@ -97,6 +97,7 @@ window.onload = function() {
   //Setup Project here
   bindKeys();
 
+  scoreBoard = ScoreBoard();
   scoreBoard.updateScore();
 
   gameContainer.push(scoreBoard);
